@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul class="left">
+            <li v-for="item in food" @click="activeType=item.type">{{item.type}}</li>
+        </ul>
+        <ul class="right">
+            <li v-for="v in newsops[0].content">
+                <span @click="end(v.id)" v-if="v.cout>0">-</span>
+                <div>{{v.name}}</div>
+                <div>{{v.price}}</div>
+                <div>{{v.cout}}</div>
+                <span @click="add(v.id)">+</span>
+            </li>
+        </ul>
+    </div>
+    <script>
+        let app=new Vue({
+            el:'#app',
+            data:{
+                food:[
+                    {
+                     type:'wine',
+                     content:[
+                         {id:1,name:'啤酒',price:5,cout:0},
+                         {id:2,name:'红牛',price:5,cout:0},
+                         {id:3,name:'芬达',price:3,cout:0},
+                         {id:4,name:'雪碧',price:2,cout:0},
+                         ]
+                    },
+                    {
+                        type:'snake',
+                        content:[
+                            {id:1,name:'辣条',price:1,cout:0},
+                            {id:2,name:'薯条',price:3,cout:0},
+                            {id:3,name:'饼干',price:3,cout:0},
+                            {id:4,name:'面包',price:2,cout:0},
+                        ]
+                    }
+                ],
+                activeType:'wine',
+            },
+            computed:{
+                newsops(){
+                    let newsops=this.food.filter(element=>element.type==this.activeType);
+                    return newsops;
+                },
+            },
+            methods:{
+                add(id){
+                   let pos= this.food.filter(e=>e.type==this.activeType);
+                   for(let i=0;i<pos[0].content.length;i++){
+                       if(pos[0].content[i].id==id){
+                           pos[0].content[i].cout++;
+                       }
+                   }
+                },
+                end(id){
+                        let pos= this.food.filter(e=>e.type==this.activeType);
+                        for(let i=0;i<pos[0].content.length;i++){
+                            if(pos[0].content[i].id==id){
+                                pos[0].content[i].cout--;
+                            }
+                    }
+                }
+            }
+
+
+        })
+    </script>
+</body>
+</html>
